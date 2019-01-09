@@ -226,7 +226,6 @@ class inferTools:
         dN_s_pos_sim = sim_D[3]
         dS_s_sim = sim_D[1]
 
-        #print sim_D,(sim_D[3]+sim_D[2])/(sim_D[3]+sim_D[2]+sim_D[4]+sim_D[5]),ts/ts_max,tw/tw_max
 
         # for NS poly 
         # with probability (ts/tsmax)/(ts/tsmax + tw/twmax) select from strong, else weak
@@ -285,7 +284,6 @@ class inferTools:
     
         # dN expected is dN_neg + (t_sim/t_max)*dN_pos
         # dS unaltered
-        #(((Bd[0]+0.)/Bd[1])/((sim_s[3][1]+0.)/sim_s[5][1]))
 
         dN_w_exp = sim_D[4]+int(round((tw/tw_max)*sim_D[2]))
         dN_w = np.random.binomial(tot_weak_sites,dN_w_exp/(dN_w_exp+sim_D[0]+0.))
@@ -303,26 +301,15 @@ class inferTools:
         dN = dN_w+dN_s
         dS = dS_w+dS_s
 
-        al = (dN_w_plus+dN_s_plus+0.)/dN
-        al_w = (dN_w_plus+0.)/dN
-        al_s = (dN_s_plus+0.)/dN
+        al = 0
+        al_w = 0
+        al_s = 0
 
-        #al = (dN_s_exp*(int(round((ts/ts_max)*dN_s_pos_sim))/(int(round((ts/ts_max)*dN_s_pos_sim))+dN_s_neg_sim+0.)) + dN_w_exp*(int(round((tw/tw_max)*dN_w_pos_sim))/(dN_w_neg_sim+int(round((tw/tw_max)*dN_w_pos_sim))+0.)))/(dN_s_exp+dN_w_exp+0.)
+        if dN != 0:
+            al = (dN_w_plus+dN_s_plus+0.)/dN
+            al_w = (dN_w_plus+0.)/dN
+            al_s = (dN_s_plus+0.)/dN
 
-        #al_w = (dN_w_exp*(int(round((tw/tw_max)*dN_w_pos_sim))/(dN_w_neg_sim+int(round((tw/tw_max)*dN_w_pos_sim))+0.)))/(dN_s_exp+dN_w_exp+0.)
-    
-        #al_s = (dN_s_exp*(int(round((ts/ts_max)*dN_s_pos_sim))/(int(round((ts/ts_max)*dN_s_pos_sim))+dN_s_neg_sim+0.)))/(dN_s_exp+dN_w_exp+0.)
-
-        #print ((sim_s[4][1]+0.)/(sim_s[0][1]))*sum(sim_s[4][100:])/(sum(sim_s[0][100:])+0.)
-        #exit() 
-        #print dN, dS, Bd[2], Bd[3]
-        #print (dN+0.)/dS, (Bd[2]+0.)/Bd[3]
-        #exit()
-
-        #print sum(sfsN)+sum(sfsS), tot_poly
- 
-        #j = 0
-        #print alphaF(dN+0.,dS+0.,sfsN[j]+0.,sfsS[j]+0.),
 
         return (sfsN, sfsS, dN_s, dN_w, dS, al,al_s,al_w) 
 
@@ -352,13 +339,9 @@ class inferTools:
             Bdata[i][2] += int(data[5])
             Bdata[i][3] += int(data[6])
 
-        # Interestingly dN/dS is fairly strongly correlated with B
-        #for i in sorted(Bdata):
-        #    print i, (Bdata[i][2]+0.)/Bdata[i][3]
-
         # Loop: first sample theta_weak, theta_strong
         # For each B value in B_values, sample a polymorphic site with same B. 
-        # If site is NS, sample from NS frequency spectrum.  With prob theta_plus/
+        # If site is NS, sample from NS frequency spectrum. 
 
         sum_stats = np.add([1,2,5,10,20,50,100,200,500,1000],-1)
 
@@ -392,11 +375,10 @@ class inferTools:
             else:
                 alfac = 2**np.random.uniform(-2,2) 
                 befac = 2**np.random.uniform(-2,2)
-            #alfac = 0.28
-            #befac = 0.86
  
             weights_s = []
             weights_w = []
+
             #first make sim data
             for B in Bvals:
                 wh = open(os.path.join(self.datadirtemp,'sfs.'+str(self.task_id)+'.'+self.pref+'.'+str(B)+'.temp.txt'),'w')
@@ -590,12 +572,10 @@ class inferTools:
             else:
                 alfac = params[nsim][0]
                 befac = params[nsim][1]
-               
-            #alfac = 0.28
-            #befac = 0.86
  
             weights_s = []
             weights_w = []
+
             #first make sim data
             for B in Bvals:
                 wh = open(os.path.join(self.datadirtemp,'sfs.'+str(self.task_id)+'.'+self.pref+'.'+str(B)+'.temp.txt'),'w')

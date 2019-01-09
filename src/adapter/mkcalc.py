@@ -243,7 +243,8 @@ class AsympMK:
         a = -1.*(2**(alpha+1))*np.exp(L*self.NN*r*beta)*L*self.N*((1./(L*self.N*r))**(1-alpha))*u*(beta**alpha)
         b =  float(gammainc(1-alpha,L*self.NN*r*beta))
         #fudge = 1-gamInt.cdf(0.2,a=self.al2,scale=1./self.be2)
-        fudge = 1.
+        #fudge = 1.
+        fudge = 0.25
 
         c = np.exp(a*b*fudge)
  
