@@ -28,7 +28,7 @@ alLow = float(sys.argv[3])
 # L_mid is the length of the central coding locus (is effectively doubled in the simulations though since two such loci are simulated per simulation)
 # Lf is the length of flanking sequence harboring deleterious mutations on each side of the coding loci 
 
-adap = mkcalc.AsympMK(B=B,gam_neg=-83,theta_f=0.001,alLow=al,alTot=al,neut_mid=False,L_mid=501,Lf=10**6,N=500,nsim=2500,pref="unc",gL=10,n=25,gH=500)
+adap = mkcalc.AsympMK(B=B,gam_neg=-83,theta_f=0.001,alLow=alLow,alTot=al,neut_mid=False,L_mid=501,Lf=10**6,N=500,nsim=2500,pref="unc",gL=10,n=25,gH=500)
 
 # here the software calculates the mutation rates corresponding to the desired terms
 adap.set_theta_f()
